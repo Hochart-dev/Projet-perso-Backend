@@ -6,7 +6,7 @@ const { db } = require('../conf');
 router.get('/', async (req, res) => {
   const sql = 'SELECT author, IsWriteOn, content, response FROM contact';
   const [results] = await db.query(sql);
-  res.json(results);
+  return res.json(results);
 });
 
 router.get('/:id', async (req, res) => {
@@ -15,19 +15,19 @@ router.get('/:id', async (req, res) => {
     'SELECT author, IsWriteOn, content, response FROM contact Where id=?';
   const sqlValues = [id];
   const [results] = await db.query(sql, sqlValues);
-  res.json(results);
+  return res.json(results);
 });
 
 router.post('/', async (req, res) => {
   const { title, genre, picture, artist } = req.body;
   const sql =
-    'INSERT INTO contact (author, IsWriteOn, content, response) VALUES (?,?,?,?)';
+    'INSERT INTO contact (author, IsWriteOn, content, response) VALUES (?,now(),?,?)';
   const sqlValues = [title, genre, picture, artist];
   try {
     const [results] = await db.query(sql, sqlValues);
-    res.status(201).json(results);
+    return res.status(201).json(results);
   } catch (err) {
-    res.send(500).send('error');
+    return res.status(500).send(err);
   }
 });
 
@@ -39,9 +39,9 @@ router.put('/:id', async (req, res) => {
   const sqlValues = [author, IsWriteOn, content, response, id];
   try {
     const [results] = await db.query(sql, sqlValues);
-    res.status(201).json(results);
+    return res.status(201).json(results);
   } catch (err) {
-    res.status(500).send('error message');
+    return res.status(500).send('error message');
   }
 });
 
@@ -50,7 +50,7 @@ router.delete('/:id', async (req, res) => {
   const sql = 'DELETE FROM contact Where id=?';
   const sqlValues = [id];
   const [results] = await db.query(sql, sqlValues);
-  res.json(results);
+  return res.json(results);
 });
 
 module.exports = router;
