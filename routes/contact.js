@@ -19,10 +19,10 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { title, genre, picture, artist } = req.body;
+  const { author, content, response } = req.body;
   const sql =
     'INSERT INTO contact (author, IsWriteOn, content, response) VALUES (?,now(),?,?)';
-  const sqlValues = [title, genre, picture, artist];
+  const sqlValues = [author, content, response];
   try {
     const [results] = await db.query(sql, sqlValues);
     return res.status(201).json(results);
@@ -33,10 +33,9 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
-  const { author, IsWriteOn, content, response } = req.body;
-  const sql =
-    'UPDATE contact SET author=?, isWriteOn=?, content=?, reponse=? WHERE id=?';
-  const sqlValues = [author, IsWriteOn, content, response, id];
+  const { author, content, response } = req.body;
+  const sql = 'UPDATE contact SET author=?, content=?, reponse=? WHERE id=?';
+  const sqlValues = [author, content, response, id];
   try {
     const [results] = await db.query(sql, sqlValues);
     return res.status(201).json(results);
