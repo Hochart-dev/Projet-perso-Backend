@@ -5,7 +5,7 @@ const { db } = require('../conf');
 
 router.get('/', async (req, res) => {
   const sql =
-    'SELECT id,collection, name, artist, about, description, size, number, price, url FROM gallery';
+    'SELECT id, collection, name, artist, about, description, size, number, price, url FROM gallery';
   const [results] = await db.query(sql);
   res.json(results);
 });
@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
   const sql =
-    'SELECT collection, name, artist, about, description, size, number, price, url From gallery Where id=?';
+    'SELECT id, collection, name, artist, about, description, size, number, price, url From gallery Where id=?';
   const sqlValues = [id];
   const [[results]] = await db.query(sql, sqlValues);
   res.json(results);

@@ -2,7 +2,16 @@ const mysql = require('mysql2/promise');
 require('dotenv').config();
 const nodemailer = require('nodemailer');
 
-const { DB_HOST, DB_USER, DB_SCHEMA, DB_PASSWORD } = process.env;
+const {
+  DB_HOST,
+  DB_USER,
+  DB_SCHEMA,
+  DB_PASSWORD,
+  FRONTEND_URL,
+  ADMIN_URL,
+  JWT_SECRET,
+  SALTROUNDS,
+} = process.env;
 
 const connection = mysql.createPool({
   host: DB_HOST,
@@ -24,4 +33,8 @@ const transporter = nodemailer.createTransport({
 module.exports = {
   db: connection,
   mailer: transporter,
+  frontendUrl: FRONTEND_URL,
+  adminUrl: ADMIN_URL,
+  secretKey: JWT_SECRET,
+  saltRounds: SALTROUNDS,
 };
