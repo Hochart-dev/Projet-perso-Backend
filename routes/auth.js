@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken');
 const { connection, saltRounds, secretKey } = require('../conf');
 require('../strategies');
 
+passport.initialize();
+
 Router.get('/signup', async (req, res) => {
   try {
     const [rows] = await connection.query(
